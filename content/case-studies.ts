@@ -3,12 +3,17 @@
  * confirmed is wrapped in `unverified(...)` and shows a VERIFY tag on the page.
  *
  * Sources for NShuttle (checked 10 Nov 2026):
- * - nshuttle repo: routes (/routes, /checkout, /my-plan), sitemap base URL, git history dates
- * - Admin Novo repo: 11 dashboard pages under src/app/(app)
- * - novo-backend-api: src/common/cache/cache.service.ts, docs/CACHING.md
- * - Novo project memory: schedule delete guard, plan/base-price validation, Paystack inline checkout
+ * - Enoch's own account: sole developer, live, still maintained, the client story, the subdomain decision
+ * - "Technical Documentation For NShuttle" (Elonatech, 9 Nov 2026): rider journey, static export,
+ *   up to 6 passengers, 15-minute reservations, Paystack popup, main-site handoff
+ * - nshuttle repo: sitemap base URL, git history dates
+ * - novo-backend-api docs/CACHING.md and Novo project memory: caching rules, schedule delete guard,
+ *   plan/base-price validation
  *
- * Left out on purpose — invented by the Stitch mockup, not supported by anything above:
+ * PRIVACY: NShuttle's code belongs to Elonatech and must not appear on this site. Describe, never paste.
+ *
+ * Left out on purpose. Not built, per the 9 Nov technical doc: weekly/monthly passes for riders,
+ * interactive seat selection, email verification in the app. Invented by the Stitch mockup:
  * -48% time to ticket, 99.4% payment success, <800ms 3G loads, 12,000+ tickets,
  * "38% of sales vanished", Redis seat locks, USSD/NIP transfers, offline signed QR passes,
  * SMS/WhatsApp passes, Mixpanel chart, "3 months (2024)", Prisma.
@@ -45,25 +50,25 @@ export type CaseStudy = {
 
 export const caseStudies: CaseStudy[] = [
   {
+    // Sources: Enoch's own account (10 Nov 2026) and "Technical Documentation For NShuttle"
+    // (9 Nov 2026, Elonatech). NShuttle's code and repo are Elonatech's and must NOT be shown:
+    // describe what it does, never paste its code.
     slug: "nshuttle",
     eyebrow: "Shuttle booking // Novo",
     title: "NShuttle",
     tagline:
-      "Rider-facing web app for booking scheduled shuttle trips, buying single, weekly or monthly plans, and paying with Paystack, backed by a NestJS API and an admin dashboard.",
-    live: {
-      href: "https://nshuttle.novo.ng",
-      verify: "Domain taken from the app's own sitemap. Confirm it is live and public.",
-    },
+      "Shuttle booking for Novo's scheduled routes. Riders sign up, search a route and date, pick a departure, add passengers and pay with Paystack, all on its own subdomain, nshuttle.novo.ng.",
+    live: { href: "https://nshuttle.novo.ng" },
     facts: [
       {
         label: "Role",
-        value: unverified("Full stack developer", "Confirm your role on NShuttle."),
-        detail: "Rider app, admin dashboard and API",
+        value: "Sole developer",
+        detail: "Product thinking, system design, frontend and backend. Still maintain it",
       },
       {
         label: "Timeline",
         value: "Jun – Sep 2026",
-        detail: "First commit 25 Jun, latest release 7 Sep",
+        detail: "Built over the summer; live and maintained since",
       },
       {
         label: "Tech stack",
@@ -71,50 +76,51 @@ export const caseStudies: CaseStudy[] = [
         detail: "TypeScript, MongoDB, Redis (Upstash), Paystack",
       },
       {
-        label: "Deliverable",
-        value: "Three apps, one API",
-        detail: "Rider app, 11-screen admin dashboard, shared backend",
+        label: "Built for",
+        value: "Novo, via Elonatech",
+        detail: "Client work. Elonatech owns the software, so the code stays private",
       },
     ],
     flow: {
-      label: "Rider flow",
+      label: "Rider journey",
       steps: [
-        { title: "Search routes", body: "Pick origin, destination and date. Results show live seat availability for each scheduled trip." },
-        { title: "Choose a plan", body: "Book a single trip, or a weekly or monthly plan priced per route." },
-        { title: "Pay with Paystack", body: "Checkout runs in Paystack's inline popup, so the rider never leaves the app." },
-        { title: "Manage trips", body: "\"My plan\" lists every booking and its status: reserved, paid or refund pending." },
+        { title: "Sign up & sign in", body: "Create an account or sign in. Password rules are checked live as the rider types." },
+        { title: "Search a route", body: "Pick from and to cities and a date, one-way or round trip. Results show the seats still available." },
+        { title: "Pick a departure", body: "Choose a time. \"Sold out\" trips are disabled and the last few seats are flagged." },
+        { title: "Passenger details", body: "Up to six passengers, each with a name, email and a valid Nigerian phone number." },
+        { title: "Pay with Paystack", body: "Seats are held for 15 minutes. Card details go only into Paystack's own popup, never through our servers." },
+        { title: "My bookings", body: "Every booking and its status, on any device the rider signs in from." },
       ],
     },
     sections: [
       {
         id: "problem",
         title: "The problem",
+        aside: { label: "Client", value: "Novo, via Elonatech" },
         paragraphs: [
-          unverified(
-            "Novo runs scheduled shuttle routes and needed riders to book and pay for seats online, while staff managed routes, fares and bookings from one place instead of by hand.",
-            "Placeholder framing. Describe the real problem in your own words: who booked how, and what went wrong.",
-          ),
+          "Novo wanted shuttle booking for its own selected routes, in the spirit of Shuttler, and came to Elonatech for it. I was already maintaining Novo's main website, so the work came to me.",
+          "The brief was unclear at first. I took my questions to our MD, and we set up a walkthrough with Novo where their MD was present. That one meeting cleared about 90% of the open questions, and the build could start on firm ground.",
         ],
       },
       {
         id: "built",
         title: "What I built",
-        aside: { label: "Scope", value: "Rider app + admin + API" },
+        aside: { label: "Scope", value: "Sole developer, end to end" },
         paragraphs: [
-          "Three separate applications sharing one backend: the rider app where people book and pay, an admin dashboard where staff run the service, and a NestJS API behind both.",
+          "I was the only developer, from system design to deployment, and I still maintain it. The rider app works with the shared Novo API, and Novo's staff set up the routes, schedules and fares it sells from the admin dashboard.",
         ],
         cards: [
           {
             title: "Rider app",
-            body: "Next.js 16. Route search, plan selection, Paystack checkout, \"My plan\" and account pages.",
+            body: "Next.js 16, exported as a static site. Sign-up, password reset, route search with round trips, checkout, bookings and profile.",
           },
           {
-            title: "Admin dashboard",
-            body: "11 screens covering schedules and fares, bookings, payments, cars, subscribers and airport transfers.",
+            title: "Booking & payment",
+            body: "Reservations that hold seats for 15 minutes, Paystack payment, and booking status from reserved through paid, expired and refunded.",
           },
           {
-            title: "NestJS API",
-            body: "MongoDB via Mongoose, Paystack payments and verification, email notifications and a Redis cache.",
+            title: "Main-site handoff",
+            body: "The shuttle form on Novo's main website hands the search to NShuttle, which skips straight to results.",
           },
         ],
       },
@@ -123,13 +129,18 @@ export const caseStudies: CaseStudy[] = [
         title: "Key decisions",
         aside: { label: "Engineering focus", value: "Correct first, then fast" },
         paragraphs: [
-          "The backend runs on Render with a fixed resource budget, so it caches aggressively, but never anywhere a stale answer would cost a rider a seat or money.",
+          "Most of these are about one thing: a rider must never pay for a seat that isn't there, or be told they paid when they didn't.",
         ],
         decisions: [
           {
-            title: "A cache that can fail without breaking anything",
-            tag: "Resilience",
-            body: "Redis (Upstash) sits in front of MongoDB and the paid Google Maps API. Every cache call catches its own errors and falls back to a cache miss, so a Redis outage removes the speed-up but never fails a request.",
+            title: "A separate app on its own subdomain",
+            tag: "Architecture",
+            body: "Rather than rework Novo's whole business website for one new feature, I proposed NShuttle as a separate app on nshuttle.novo.ng. The main site stays as it is and simply hands a rider's search across, so each can change without breaking the other.",
+          },
+          {
+            title: "The browser never decides a payment",
+            tag: "Payments",
+            body: "The app asks the backend to start a payment, opens Paystack's popup, and then shows whatever the backend reports. Card details stay inside Paystack, and an unpaid reservation simply expires and releases its seats.",
           },
           {
             title: "Never cache live seat availability",
@@ -137,14 +148,14 @@ export const caseStudies: CaseStudy[] = [
             body: "Route lists are cached for 5 minutes and admin lists for 30 seconds, but the per-date seat search is deliberately left uncached, so a rider never sees a seat that is already gone.",
           },
           {
-            title: "Only cache payments that are final",
-            tag: "Payments",
-            body: "Paystack verification results are cached for 10 minutes, and only when the status is \"success\". A pending or failed payment is always checked again.",
+            title: "A cache that can fail without breaking anything",
+            tag: "Resilience",
+            body: "Redis sits in front of MongoDB and the paid Google Maps API to keep the API within its hosting budget. Every cache call falls back to the database on error, so a Redis outage removes the speed-up but never fails a request.",
           },
           {
             title: "Guards that came from a real crash",
             tag: "Data integrity",
-            body: "Deleting a schedule once left bookings pointing at nothing and crashed the rider's plan page. Schedules with reserved, paid or refund-pending bookings now cannot be deleted, and a route's single-trip price is validated against its base fare on every create and update.",
+            body: "Deleting a schedule once left bookings pointing at nothing and crashed a rider's bookings page. Schedules with live bookings can no longer be deleted, and each route's single-trip fare is checked against its base price on every save.",
           },
         ],
       },
@@ -160,7 +171,8 @@ export const caseStudies: CaseStudy[] = [
  *
  * Kept off this public page on purpose: teammates' names, infrastructure URLs and
  * database names, and the detail of the review findings that are still open.
- * The code snippet is Elonatech's: confirm the company is happy for it to be public.
+ * PRIVACY: SmartBioTrack's code belongs to Elonatech and must not appear on this site.
+ * The row-lock decision is described in words only (code snippet removed 10 Nov 2026).
  */
 caseStudies.push({
   slug: "smartbiotrack",

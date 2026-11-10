@@ -47,18 +47,17 @@ export const contact = {
   email: "enochenebeli@gmail.com" as Claim,
   links: [
     {
+      // Confirmed by Enoch, 10 Nov 2026.
       label: "LinkedIn",
-      handle: "in/enochenebeli",
-      href: "https://linkedin.com/in/enochenebeli",
-      verify: "LinkedIn URL came from the mockup. Confirm it.",
+      handle: "in/enoch-enebeli",
+      href: "https://www.linkedin.com/in/enoch-enebeli-8165231ab/",
     },
     {
-      // The mockup said github.com/enochenebeli; your git identity is IronMagistrate,
-      // which is the likelier GitHub username. Still unconfirmed.
+      // Confirmed 10 Nov 2026: the portfolio repo lives at github.com/IronMagistrate/Portfolio.
+      // (The Stitch mockup's github.com/enochenebeli was wrong.)
       label: "GitHub",
       handle: "github.com/IronMagistrate",
       href: "https://github.com/IronMagistrate",
-      verify: "Your git identity is IronMagistrate. Confirm this is your GitHub profile URL.",
     },
   ] as { label: string; handle: string; href: string; verify?: string }[],
 };
@@ -75,6 +74,8 @@ export type Project = {
   role: Claim;
   status: ProjectStatus;
   statusVerify?: string;
+  /** Public source code, shown as a "Source" link when there is no case study. */
+  repo?: string;
   /** true once /work/<slug> exists (Phase 2). */
   hasCaseStudy: boolean;
 };
@@ -91,15 +92,14 @@ export const projects: Project[] = [
     slug: "nshuttle",
     name: "NShuttle",
     category: "Commerce",
-    summary: "Shuttle booking web app with online seat booking and Paystack payments.",
-    deliverable: unverified(
-      "Cut the booking flow from 8 steps down to 4–5.",
-      "Step counts came from the mockup. Confirm the real before/after.",
-    ),
+    summary: "Shuttle booking for Novo's scheduled routes: search, book seats and pay online at nshuttle.novo.ng.",
+    // Confirmed by Enoch, 10 Nov 2026: sole developer, live, still maintained.
+    // (The mockup's "8 steps down to 4-5" claim was never confirmed and is gone.)
+    deliverable:
+      "Sole developer from sign-up to Paystack payment, plus the API behind it. Live and maintained.",
     stack: ["Next.js", "NestJS", "MongoDB", "Redis", "Paystack"],
-    role: unverified("Built end to end", "Confirm your role on NShuttle."),
+    role: "Sole developer",
     status: "live",
-    statusVerify: "Confirm NShuttle is live in production.",
     hasCaseStudy: true,
   },
   {
@@ -120,29 +120,28 @@ export const projects: Project[] = [
     name: "Novo Admin",
     category: "Internal tooling",
     summary: "Admin dashboard for routes, schedules and bookings on the Novo shuttle platform.",
-    // 11 screens confirmed: page.tsx files under Admin Novo/src/app/(app), 10 Nov 2026.
-    deliverable: unverified(
-      "11 dashboard screens, 47 API endpoints, role-based access.",
-      "11 screens is confirmed from the repo. The 47 endpoints and role-based access came from the mockup.",
-    ),
+    // Confirmed by Admin Novo technical documentation (9 Nov 2026): 11 protected screens,
+    // 47 backend endpoints defined, two roles (admin, super_admin), production build.
+    deliverable: "11 dashboard screens, 47 API endpoints, admin and super-admin roles.",
     stack: ["Next.js", "TypeScript", "Tailwind CSS"],
-    role: unverified("Built end to end", "Confirm your role on Novo Admin."),
+    role: unverified("Built end to end", "Confirm your role on Novo Admin: sole developer, or with the team?"),
     status: "production",
-    statusVerify: "Confirm Novo Admin is in production.",
     hasCaseStudy: false,
   },
   {
     slug: "auth-system",
     name: "Auth System",
     category: "Security infra",
-    summary: "Authentication service built as a personal project.",
-    deliverable: unverified(
-      "Refresh-token rotation, TOTP two-factor auth, per-session revocation.",
-      "This project came entirely from the mockup. Confirm it exists and what it does.",
-    ),
+    summary: "Standalone authentication API: sign-up, email verification, sessions and two-factor sign-in.",
+    // Checked against github.com/enochenebeli/auth-system (auth.controller.ts, sessions.service.ts,
+    // package.json) on 10 Nov 2026: refresh rotation, TOTP 2FA (speakeasy + QR), list/revoke one or
+    // all other sessions, email verification (Resend), password reset, Redis rate limit on login.
+    deliverable:
+      "Refresh-token rotation, TOTP two-factor auth, per-session revocation, email verification and rate-limited login.",
     stack: ["NestJS", "PostgreSQL", "Prisma", "Redis"],
     role: "Personal project",
     status: "in-progress",
+    repo: "https://github.com/enochenebeli/auth-system",
     hasCaseStudy: false,
   },
 ];
@@ -158,10 +157,8 @@ export const about: { label: string; body: Claim }[] = [
   },
   {
     label: "Academic foundation",
-    body: unverified(
-      "B.Eng. in Computer Engineering, Covenant University.",
-      "Degree and university came from the mockup. Confirm both.",
-    ),
+    // Confirmed by Enoch, 10 Nov 2026.
+    body: "B.Eng. in Computer Engineering, Covenant University, 2018–2023.",
   },
 ];
 

@@ -117,7 +117,12 @@ function Showcase({ study }: { study: CaseStudy }) {
             Screenshot pending
           </span>
         </div>
-        <ol className="grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* 3 columns for 5-6 steps (two even rows), 4 columns for up to 4. */}
+        <ol
+          className={`grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 ${
+            flow.steps.length > 4 ? "lg:grid-cols-3" : "lg:grid-cols-4"
+          }`}
+        >
           {flow.steps.map((step, i) => {
             const last = i === flow.steps.length - 1;
             return (

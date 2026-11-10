@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { statusLabel, type Project } from "@/content/site";
 import { Claim, VerifyTag } from "../claim";
-import { ArrowRight, Bolt } from "../icons";
+import { ArrowRight, Bolt, ExternalLink } from "../icons";
 import { Tag } from "../ui";
 
 const liveStatuses = new Set(["live", "production"]);
@@ -70,6 +70,16 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
             >
               Case study <ArrowRight />
             </Link>
+          ) : project.repo ? (
+            <a
+              href={project.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${project.name} source code on GitHub (opens in a new tab)`}
+              className="inline-flex items-center gap-1 font-mono text-label-md font-bold uppercase group-hover:text-accent-ink"
+            >
+              Source <ExternalLink className="size-3.5" />
+            </a>
           ) : (
             <span className="font-mono text-label-sm uppercase text-muted">Case study soon</span>
           )}
