@@ -35,8 +35,8 @@ export const profile = {
   },
   intro:
     "I design, build and ship web platforms end to end: Next.js, NestJS and TypeScript, from the backend API to the interface people actually use.",
-  /** Put the real headshot at public/<file> and set this to "/<file>". null shows a placeholder frame. */
-  photo: null as string | null,
+  /** Headshot in public/ (1023×1537 portrait). null shows a placeholder frame. */
+  photo: "/enoch-enebeli.png" as string | null,
   /** Put the CV PDF in public/ and set this to "/<file>.pdf". null disables the Download CV buttons. */
   cv: null as string | null,
   copyrightYear: 2026,

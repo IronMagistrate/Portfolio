@@ -6,13 +6,16 @@ import { Section } from "./section";
 function Portrait() {
   if (profile.photo) {
     return (
+      // Real dimensions of the source file, so next/image reserves the right space.
+      // The frame is square, so the 2:3 portrait is cropped from just below the top
+      // (object-[50%_15%]) to keep the face in view rather than centring on the tie.
       <Image
         src={profile.photo}
         alt={`Portrait of ${profile.name}`}
-        width={800}
-        height={800}
-        sizes="(min-width: 1024px) 40vw, 100vw"
-        className="aspect-square w-full object-cover grayscale contrast-125 hover:grayscale-0"
+        width={1023}
+        height={1537}
+        sizes="(min-width: 1024px) 40vw, (min-width: 448px) 448px, 100vw"
+        className="aspect-square w-full object-cover object-[50%_15%] grayscale contrast-125 hover:grayscale-0"
       />
     );
   }

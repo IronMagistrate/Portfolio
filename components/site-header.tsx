@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { profile } from "@/content/site";
+import { BrandMark } from "./brand-mark";
 import { NavLinks } from "./nav-links";
 import { ThemeToggle } from "./theme-toggle";
 import { Download } from "./icons";
@@ -9,8 +10,9 @@ export function SiteHeader() {
     <header className="fixed inset-x-0 top-0 z-50 border-b-2 border-line bg-canvas">
       <div className="flex h-20 items-center justify-between gap-2 px-5 md:px-12">
         <div className="flex items-center gap-4">
-          <Link href="/" className="group flex items-center gap-2">
-            <span aria-hidden="true" className="hidden size-3 bg-accent group-hover:bg-ink sm:block" />
+          <Link href="/" className="group flex items-center gap-2.5">
+            {/* Hidden on phones: name + mark + theme switch don't fit in 375px. Hover = the press-down state. */}
+            <BrandMark className="hidden size-7 group-hover:translate-x-px group-hover:translate-y-px sm:block" />
             <span className="font-display text-base font-extrabold uppercase tracking-tight sm:text-headline-sm">
               {profile.name}
             </span>
