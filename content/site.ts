@@ -124,7 +124,9 @@ export const projects: Project[] = [
     // 47 backend endpoints defined, two roles (admin, super_admin), production build.
     deliverable: "11 dashboard screens, 47 API endpoints, admin and super-admin roles.",
     stack: ["Next.js", "TypeScript", "Tailwind CSS"],
-    role: unverified("Built end to end", "Confirm your role on Novo Admin: sole developer, or with the team?"),
+    // Confirmed by Enoch, 10 Nov 2026: his work, committed under Elonatech's company GitHub account
+    // (all three Admin Novo commits use the "Elonatech's Projects" identity). Code stays private.
+    role: "Built end to end",
     status: "production",
     hasCaseStudy: false,
   },

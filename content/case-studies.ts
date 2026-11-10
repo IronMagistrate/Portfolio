@@ -98,7 +98,7 @@ export const caseStudies: CaseStudy[] = [
         title: "The problem",
         aside: { label: "Client", value: "Novo, via Elonatech" },
         paragraphs: [
-          "Novo wanted shuttle booking for its own selected routes, in the spirit of Shuttler, and came to Elonatech for it. I was already maintaining Novo's main website, so the work came to me.",
+          "Novo wanted a commuter shuttle-booking service for its own selected routes, and came to Elonatech for it. I was already maintaining Novo's main website, so the work came to me.",
           "The brief was unclear at first. I took my questions to our MD, and we set up a walkthrough with Novo where their MD was present. That one meeting cleared about 90% of the open questions, and the build could start on firm ground.",
         ],
       },
