@@ -249,11 +249,12 @@ export const about: { label: string; body: string }[] = [
 /** Work history, newest first. Taken from Enoch's CV (16 Nov 2026), shortened, nothing added. */
 export const experience: { role: string; company: string; period: string; summary: string }[] = [
   {
-    role: "Full Stack Developer",
+    // Title and scope match the CV revised 17 Nov 2026.
+    role: "Lead Full Stack Software Developer",
     company: "Elonatech Nigeria Limited",
     period: "Oct 2025 – now",
     summary:
-      "Sole developer on the Novo Cars platform: frontend architecture, the NestJS API, Paystack payments and transactional email.",
+      "Sole developer of Novo's transport platform (business website, rider app and staff dashboard on one API), and backend lead on a multi-tenant attendance platform.",
   },
   {
     role: "Front-End Developer (remote)",
