@@ -1,46 +1,53 @@
-import { profile } from "@/content/site";
-import { ArrowDown } from "../icons";
-import { buttonPrimary, CvButton, StatusSquare } from "../ui";
+import { contact, profile } from "@/content/site";
+import { WordReveal } from "../motion/WordReveal";
+import { ButtonLink, StatusDot } from "../ui";
+
+/*
+ * Supporting hero text fades up with a CSS animation (see `hero-rise` below), not JavaScript:
+ * it starts at first paint and does not wait for hydration, which keeps the hero's
+ * largest-paint time low. The headline does the same, word by word (WordReveal).
+ */
+const rise = "motion-ok:animate-[hero-rise_800ms_var(--ease-out-expo)_both]";
 
 export function Hero() {
   return (
-    <section className="border-b-2 border-line px-5 py-16 md:px-12 md:py-24">
-      <div className="mx-auto flex max-w-7xl flex-col gap-10">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b-2 border-line pb-4">
-          <div className="flex items-center gap-2 border border-line bg-surface px-4 py-1">
-            <StatusSquare pulse />
-            <span className="font-mono text-label-md font-bold uppercase">
-              {profile.role} {"// "}
-              {profile.location}
-            </span>
-          </div>
-          <div className="hidden font-mono text-sm text-muted md:block">
-            <span className="text-accent-ink">SYS_LOC:</span> LAT {profile.coordinates.lat} {"// "}LON{" "}
-            {profile.coordinates.lon}
-          </div>
-        </div>
+    <section className="container-x flex min-h-svh flex-col justify-between gap-16 pt-28 pb-10 md:pt-36">
+      <div className={`label flex flex-wrap items-center justify-between gap-3 text-muted ${rise}`}>
+        <span>
+          {profile.role} · {profile.location}
+        </span>
+        <span className="flex items-center gap-2 text-ink">
+          <StatusDot live />
+          {profile.availability}
+        </span>
+      </div>
 
-        <div className="fit-title-box flex flex-col gap-6">
-          <h1 className="fit-title max-w-5xl font-display font-extrabold tracking-[-0.03em] uppercase">
-            {profile.headline.before}{" "}
-            <span className="bg-accent px-1 text-on-accent [box-decoration-break:clone]">
-              {profile.headline.highlight}
-            </span>{" "}
-            {profile.headline.after}
-          </h1>
-          <p className="max-w-3xl text-lg leading-7 text-muted">{profile.intro}</p>
-        </div>
+      <div className="flex flex-col gap-10">
+        <WordReveal
+          as="h1"
+          delay={100}
+          className="max-w-[13ch] font-display text-display"
+          segments={[
+            { text: profile.headline.before },
+            { text: profile.headline.highlight, accent: true },
+            { text: profile.headline.after },
+          ]}
+        />
 
-        <div className="flex flex-col gap-6 border-t-2 border-line pt-6 sm:flex-row sm:items-center">
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <a href="#work" className={buttonPrimary}>
-              View work <ArrowDown />
-            </a>
-            <CvButton />
-          </div>
-          <div className="flex items-center gap-2 self-start border-2 border-line bg-surface px-4 py-2 sm:ml-auto sm:self-auto">
-            <StatusSquare />
-            <span className="font-mono text-label-sm font-bold uppercase">{profile.availability}</span>
+        <div className="flex flex-col justify-between gap-8 border-t border-line pt-8 md:flex-row md:items-end">
+          <p className={`max-w-xl text-lead text-muted ${rise} [animation-delay:350ms]`}>{profile.intro}</p>
+          <div className={`flex flex-wrap items-center gap-3 ${rise} [animation-delay:450ms]`}>
+            <ButtonLink href="/#work" arrow="down">
+              View work
+            </ButtonLink>
+            {profile.cv ? (
+              <ButtonLink href={profile.cv} variant="ghost">
+                Download CV
+              </ButtonLink>
+            ) : null}
+            <ButtonLink href={`mailto:${contact.email}`} variant="ghost">
+              Get in touch
+            </ButtonLink>
           </div>
         </div>
       </div>

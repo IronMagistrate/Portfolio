@@ -1,41 +1,23 @@
 import Link from "next/link";
 import { profile } from "@/content/site";
 import { BrandMark } from "./brand-mark";
-import { NavLinks } from "./nav-links";
-import { ThemeToggle } from "./theme-toggle";
-import { Download } from "./icons";
+import { HeaderNav } from "./header-nav";
 
 export function SiteHeader() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b-2 border-line bg-canvas">
-      <div className="flex h-20 items-center justify-between gap-2 px-5 md:px-12">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="group flex items-center gap-2.5">
-            {/* Hidden on phones: name + mark + theme switch don't fit in 375px. Hover = the press-down state. */}
-            <BrandMark className="hidden size-7 group-hover:translate-x-px group-hover:translate-y-px sm:block" />
-            <span className="font-display text-base font-extrabold uppercase tracking-tight sm:text-headline-sm">
-              {profile.name}
-            </span>
-          </Link>
-          <span className="hidden border border-line bg-surface-2 px-1.5 py-0.5 font-mono text-label-sm uppercase text-muted xl:inline-block">
-            {profile.role}
-          </span>
-        </div>
-
-        <NavLinks />
-
-        <div className="flex items-center gap-3">
-          {profile.cv ? (
-            <a
-              href={profile.cv}
-              download
-              className="press inline-flex items-center gap-1 border-2 border-line-strong bg-accent px-3 py-2 font-mono text-label-md font-bold uppercase text-on-accent"
-            >
-              CV <Download className="size-3.5" />
-            </a>
-          ) : null}
-          <ThemeToggle />
-        </div>
+    <header
+      // Named so route transitions leave the header in place while the page content changes.
+      style={{ viewTransitionName: "site-header" }}
+      // Solid, not blurred: a backdrop blur is re-rendered on every animated frame beneath it,
+      // which cost ~120ms per frame on a throttled phone while the nav animated in.
+      className="fixed inset-x-0 top-0 z-50 border-b border-line bg-canvas"
+    >
+      <div className="container-x flex h-16 items-center justify-between gap-4">
+        <Link href="/" aria-label={`${profile.name}, home`} className="group flex items-center gap-3">
+          <BrandMark className="size-6 transition-transform duration-300 group-hover:-rotate-6" />
+          <span className="hidden font-display text-xl sm:block">{profile.name}</span>
+        </Link>
+        <HeaderNav />
       </div>
     </header>
   );

@@ -1,70 +1,64 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Space_Mono, Syne } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { MobileNav } from "@/components/mobile-nav";
+import { profile } from "@/content/site";
+import { SITE_URL } from "@/lib/site-url";
 // Must come from a plain module: a constant exported from a "use client" file reaches
 // server code as a client reference, not as the string itself.
 import { THEME_STORAGE_KEY } from "@/lib/theme";
-import { SITE_URL } from "@/lib/site-url";
 import "./globals.css";
 
 // next/font self-hosts these at build time: no request to Google from the visitor's browser.
-const syne = Syne({
-  variable: "--font-syne",
+const display = Instrument_Serif({
+  variable: "--font-instrument-serif",
   subsets: ["latin"],
-  weight: ["700", "800"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
+const sans = Geist({ variable: "--font-geist", subsets: ["latin"] });
 
-const spaceMono = Space_Mono({
-  variable: "--font-space-mono",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
+const title = `${profile.name} | ${profile.role}`;
 const description =
-  "Portfolio of Enoch Enebeli, a full stack engineer building secure, scalable systems with Next.JS, React, NestJS, Node.js and PostgreSQL.";
+  "Portfolio of Enoch Enebeli, a lead full stack software developer in Lagos building production web platforms with Next.js, NestJS, TypeScript, PostgreSQL and MongoDB. Open to remote roles.";
 
 export const metadata: Metadata = {
   // Makes relative URLs (Open Graph images, canonical links) absolute.
   metadataBase: new URL(SITE_URL),
-  title: {
-    default: "Enoch Enebeli | Full Stack Engineer",
-    template: "%s | Enoch Enebeli",
-  },
+  title: { default: title, template: `%s | ${profile.name}` },
   description,
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
-    siteName: "Enoch Enebeli",
-    title: "Enoch Enebeli | Full Stack Engineer",
+    siteName: profile.name,
+    title,
     description,
     url: "/",
     locale: "en_NG",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Enoch Enebeli | Full Stack Engineer",
-    description,
-  },
+  twitter: { card: "summary_large_image", title, description },
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
-    { media: "(prefers-color-scheme: light)", color: "#f4f4ef" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0b0c" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f4ef" },
   ],
 };
 
-// Runs while the HTML is parsed, before first paint, so a saved light theme never flashes dark.
-// See node_modules/next/dist/docs/01-app/02-guides/preventing-flash-before-hydration.md
-const themeScript = `(function(){try{var t=localStorage.getItem("${THEME_STORAGE_KEY}");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()`;
+/*
+ * Runs while the HTML is parsed, before first paint:
+ * 1. applies a saved theme, so a light-theme visitor never sees a dark flash;
+ * 2. adds `motion-ok` to <html> when the visitor has NOT asked for reduced motion.
+ *    CSS uses that class to hide headings that are about to animate in, so with JavaScript
+ *    off or reduced motion on, nothing is ever hidden.
+ * See node_modules/next/dist/docs/01-app/02-guides/preventing-flash-before-hydration.md
+ */
+const bootScript = `(function(){try{var d=document.documentElement;var t=localStorage.getItem("${THEME_STORAGE_KEY}");if(t==="light"||t==="dark")d.setAttribute("data-theme",t);if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("motion-ok")}catch(e){}})()`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -72,25 +66,26 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-theme="dark"
       suppressHydrationWarning
-      className={`${syne.variable} ${spaceGrotesk.variable} ${spaceMono.variable} h-full antialiased`}
+      className={`${display.variable} ${sans.variable} ${mono.variable} h-full antialiased`}
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
-      {/* suppressHydrationWarning: browser extensions (Grammarly, ColorZilla) inject attributes on <body> before React loads. */}
+      {/* suppressHydrationWarning: browser extensions inject attributes on <body> before React loads. */}
       <body suppressHydrationWarning className="flex min-h-full flex-col bg-canvas font-sans text-ink">
         <a
           href="#main"
-          className="sr-only z-[60] bg-accent px-4 py-2 font-mono text-label-md uppercase text-on-accent focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          className="label sr-only z-[60] bg-accent px-4 py-2 text-on-accent focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
         >
           Skip to content
         </a>
-        <SiteHeader />
-        <main id="main" className="flex-1 pt-20">
-          {children}
-        </main>
-        <SiteFooter />
-        <MobileNav />
+        <SmoothScroll>
+          <SiteHeader />
+          <main id="main" className="flex-1">
+            {children}
+          </main>
+          <SiteFooter />
+        </SmoothScroll>
       </body>
     </html>
   );

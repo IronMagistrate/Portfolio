@@ -1,30 +1,29 @@
-import { projects } from "@/content/site";
+import { ViewTransition } from "react";
+import { AboutSection } from "@/components/home/about-section";
 import { ContactSection } from "@/components/home/contact-section";
 import { Hero } from "@/components/home/hero";
-import { ProfileSection } from "@/components/home/profile-section";
-import { ProjectCard } from "@/components/home/project-card";
-import { Section } from "@/components/home/section";
-import { SkillsSection } from "@/components/home/skills-section";
+import { WorkSection } from "@/components/home/work-section";
+import { PinnedSteps } from "@/components/motion/PinnedSteps";
+import { novoArchitecture } from "@/content/site";
 
 export default function Home() {
   return (
-    <>
-      <Hero />
-      <Section
-        id="work"
-        index="01"
-        title="Selected work"
-        tag={`${String(projects.length).padStart(2, "0")} projects`}
-      >
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.slug} project={project} index={i} />
-          ))}
-        </div>
-      </Section>
-      <ProfileSection />
-      <SkillsSection />
-      <ContactSection />
-    </>
+    // Page-level transition wrapper: must live in the page, not the layout, because
+    // layouts persist across navigations and would never fire enter/exit.
+    <ViewTransition enter="page-fade" exit="page-fade" default="none">
+      <div>
+        <Hero />
+        <WorkSection />
+        <PinnedSteps
+          id="architecture"
+          eyebrow="Under the hood · Novo"
+          heading="How one platform is put together"
+          intro="Novo runs on three apps and one API. Scroll through its four layers."
+          steps={novoArchitecture}
+        />
+        <AboutSection />
+        <ContactSection />
+      </div>
+    </ViewTransition>
   );
 }

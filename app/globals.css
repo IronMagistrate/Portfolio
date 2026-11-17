@@ -1,47 +1,45 @@
 @import "tailwindcss";
 
 /*
- * Kinetic Brutalism — design tokens.
- * Source of truth: the Stitch export's DESIGN.md.
- * Every colour the UI uses is a token here; components never hard-code hex values.
+ * Editorial minimal — design tokens.
+ * Large serif display type, generous whitespace, hairline dividers, ONE accent (lime).
  * Dark is the default theme; <html data-theme="light"> switches the palette.
+ * Components never hard-code hex values: every colour is a token, so both themes stay in sync.
  */
 
-/* `light:` variant for the rare spot where light mode needs different markup styling. */
 @custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+/* `motion-ok:` = JavaScript is running AND the visitor has not asked for reduced motion. */
+@custom-variant motion-ok (&:where(html.motion-ok, html.motion-ok *));
 
 :root,
 [data-theme="dark"] {
-  --canvas: #0a0a0a; /* page background */
-  --surface: #141414; /* cards, panels */
-  --surface-2: #1c1c1c; /* chips, inset boxes */
-  --line: #262626; /* internal dividers */
-  --line-strong: #f2f2f2; /* active outlines, primary frames */
-  --ink: #f2f2f2; /* headlines, body */
-  --muted: #8a8a8a; /* secondary text */
-  --accent: #c8ff00; /* electric lime */
-  --on-accent: #0a0a0a; /* text on lime */
-  --accent-ink: #c8ff00; /* accent-coloured text (labels, indexes) */
-  --shadow: #f2f2f2; /* hard offset shadow on primary buttons */
-  --shadow-accent: #c8ff00; /* hard offset shadow on cards and secondary buttons */
-  --card-rest-shadow: 0 0 0 transparent;
+  --canvas: #0b0b0c; /* page */
+  --surface: #131314; /* raised panels */
+  --surface-2: #1b1b1d; /* insets, chips */
+  --line: #27272b; /* hairline dividers */
+  --line-strong: #45454b; /* control borders */
+  --ink: #eeede9; /* text */
+  --muted: #9b9a95; /* secondary text */
+  --accent: #c8ff00; /* the one accent: fills, highlights */
+  --on-accent: #0b0b0c; /* text on an accent fill */
+  --accent-ink: #c8ff00; /* accent-coloured text and strokes */
+  --danger: #ff8f85; /* form errors */
   color-scheme: dark;
 }
 
 [data-theme="light"] {
-  --canvas: #f4f4ef;
+  --canvas: #f5f4ef;
   --surface: #ffffff;
-  --surface-2: #f4f4ef;
-  --line: #0a0a0a;
-  --line-strong: #0a0a0a;
-  --ink: #0a0a0a;
-  --muted: #5c5c5c;
+  --surface-2: #eceae3;
+  --line: #dcdad1;
+  --line-strong: #b4b1a5;
+  --ink: #111110;
+  --muted: #5d5c57;
   --accent: #c8ff00;
-  --on-accent: #0a0a0a;
-  --accent-ink: #0a0a0a; /* lime text is unreadable on paper; lime is used only as a highlight block */
-  --shadow: #0a0a0a;
-  --shadow-accent: #0a0a0a;
-  --card-rest-shadow: 4px 4px 0 #0a0a0a;
+  --on-accent: #111110;
+  /* Lime text is unreadable on paper, so accent text darkens to an olive of the same hue. */
+  --accent-ink: #3f5200;
+  --danger: #b3261e;
   color-scheme: light;
 }
 
@@ -56,57 +54,45 @@
   --color-accent: var(--accent);
   --color-on-accent: var(--on-accent);
   --color-accent-ink: var(--accent-ink);
+  --color-danger: var(--danger);
 
-  --font-display: var(--font-syne);
-  --font-sans: var(--font-space-grotesk);
-  --font-mono: var(--font-space-mono);
+  --font-display: var(--font-instrument-serif), "Times New Roman", serif;
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
-  /* Type scale from DESIGN.md */
-  --text-display: 5.5rem;
-  --text-display--line-height: 0.95;
-  --text-display--letter-spacing: -0.04em;
-  --text-headline-lg: 3.75rem;
-  --text-headline-lg--line-height: 1;
-  --text-headline-lg--letter-spacing: -0.03em;
-  --text-headline-md: 2.25rem;
-  --text-headline-md--line-height: 1.1;
-  --text-headline-md--letter-spacing: -0.02em;
-  --text-headline-sm: 1.5rem;
-  --text-headline-sm--line-height: 1.15;
-  --text-headline-sm--letter-spacing: -0.01em;
-  --text-label-lg: 0.875rem;
-  --text-label-lg--line-height: 1.125rem;
-  --text-label-lg--letter-spacing: 0.06em;
-  --text-label-md: 0.75rem;
-  --text-label-md--line-height: 1rem;
-  --text-label-md--letter-spacing: 0.08em;
-  --text-label-sm: 0.625rem;
-  --text-label-sm--line-height: 0.875rem;
-  --text-label-sm--letter-spacing: 0.1em;
-}
+  /* Fluid type scale: sizes follow the viewport, so no breakpoint jumps and no overflow. */
+  --text-display: clamp(3.25rem, 10.5vw, 9.5rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.025em;
+  --text-h2: clamp(2.5rem, 6.4vw, 5.5rem);
+  --text-h2--line-height: 0.98;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: clamp(1.75rem, 3.4vw, 2.75rem);
+  --text-h3--line-height: 1.05;
+  --text-h3--letter-spacing: -0.015em;
+  --text-lead: clamp(1.125rem, 1.5vw, 1.375rem);
+  --text-lead--line-height: 1.5;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1rem;
+  --text-label--letter-spacing: 0.08em;
 
-/* Rule from DESIGN.md: 0px radius on everything. */
-*,
-*::before,
-*::after {
-  border-radius: 0 !important;
+  /* Motion: precise and calm. One easing curve, three durations. */
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  --default-transition-duration: 300ms;
 }
 
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 5rem; /* fixed header height, so anchor jumps don't hide headings */
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  /* Anchor jumps land below the fixed header (Lenis handles smooth scrolling when motion is on). */
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: var(--canvas);
   color: var(--ink);
-  font-family: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist), system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
 }
 
 ::selection {
@@ -115,64 +101,161 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 3px;
 }
 
-[data-theme="light"] :focus-visible {
-  outline-color: var(--ink);
+/* ---------- Lenis (smooth scroll) ---------- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* ---------- Split-text reveals ----------
+ * Headings marked data-split are hidden until GSAP has split and positioned their lines,
+ * which prevents a flash of the finished heading before it animates.
+ * Only applies when motion is on (html.motion-ok is set by the inline script in layout.tsx),
+ * and a failsafe animation reveals the text anyway if the script never runs.
+ */
+html.motion-ok [data-split]:not([data-split-ready]) {
+  visibility: hidden;
+  animation: split-failsafe 0s linear 2.5s forwards;
+}
+@keyframes split-failsafe {
+  to {
+    visibility: visible;
+  }
 }
 
 @layer components {
-  /*
-   * Headline that scales with its container so its longest word always fits.
-   * Syne 800 is very wide: "PRODUCTION-" measures ~12em, so a fixed 88px headline
-   * overflowed at 1024px and forced sideways scrolling on phones.
-   * 8cqi = container width / 12.5, which leaves a margin. Cap with --fit-max.
-   */
-  .fit-title-box {
-    container-type: inline-size;
+  /* Underline that sweeps in from the left on hover/focus, and out to the right on leave. */
+  .link-sweep {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 100% 100%;
+    background-size: 0% 1px;
+    transition: background-size 400ms var(--ease-out-expo);
   }
-  .fit-title {
-    font-size: min(var(--fit-max, 5.5rem), 8cqi);
-    line-height: 0.95;
-  }
-
-  /*
-   * Hard-offset "physical switch" interaction: lifts on hover, presses flat on click.
-   * No transitions — DESIGN.md asks for zero smoothing.
-   */
-  .press {
-    box-shadow: 4px 4px 0 var(--press-shadow, var(--shadow));
-  }
-  .press:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0 var(--press-shadow, var(--shadow));
-  }
-  .press:active {
-    transform: translate(2px, 2px);
-    box-shadow: 0 0 0 transparent;
-  }
-  .press-accent {
-    --press-shadow: var(--shadow-accent);
+  .link-sweep:hover,
+  .link-sweep:focus-visible {
+    background-position: 0% 100%;
+    background-size: 100% 1px;
   }
 
-  /* Cards rest flat (dark) or with a black offset (light) and lift onto a lime/black shadow. */
-  .lift {
-    box-shadow: var(--card-rest-shadow);
-  }
-  .lift:hover,
-  .lift:focus-within {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0 var(--shadow-accent);
+  /* Small uppercase mono label used for eyebrows, indexes and metadata. */
+  .label {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .press:hover,
-    .press:active,
-    .lift:hover,
-    .lift:focus-within {
-      transform: none;
+  .container-x {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 90rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 2.5rem;
     }
+  }
+  @media (min-width: 1280px) {
+    .container-x {
+      padding-inline: 4rem;
+    }
+  }
+}
+
+/* ---------- Route transitions (React <ViewTransition>) ----------
+ * Pages cross-fade; a project's visual morphs from its card into the case-study header.
+ * See node_modules/next/dist/docs/01-app/02-guides/view-transitions.md
+ */
+::view-transition-group(.morph) {
+  animation-duration: 550ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+::view-transition-old(.page-fade) {
+  animation: 180ms ease-out both vt-fade-out;
+}
+::view-transition-new(.page-fade) {
+  animation:
+    320ms ease-out 120ms both vt-fade-in,
+    520ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both vt-rise;
+}
+/* Theme switch: a quick cross-fade of the whole page. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 260ms;
+}
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes vt-rise {
+  from {
+    transform: translateY(16px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+  }
+  .link-sweep {
+    transition: none;
+  }
+}
+
+/* Keep the page clickable during a transition, and hold the header still while content changes. */
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+/* SplitText line masks: room for serif descenders (g, y, p) that tight leading would clip. */
+[data-split] .split-line-mask {
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+/* Hero supporting text: fade and rise from first paint, no JavaScript needed. */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+/* Headline words slide up from behind their masks (WordReveal). */
+@keyframes word-rise {
+  from {
+    transform: translateY(115%);
   }
 }
