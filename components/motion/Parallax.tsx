@@ -8,6 +8,8 @@ type ParallaxProps = {
   /** Total travel as a percentage of the element's height (e.g. 12 = moves from -6% to +6%). */
   amount?: number;
   className?: string;
+  /** Inline styles for the outer box, e.g. an aspectRatio taken from the image's own size. */
+  style?: React.CSSProperties;
 };
 
 /**
@@ -15,7 +17,7 @@ type ParallaxProps = {
  * oversized and slides vertically as the box crosses the viewport.
  * Desktop with motion allowed only: on phones and with reduced motion it is a static box.
  */
-export function Parallax({ children, amount = 12, className }: ParallaxProps) {
+export function Parallax({ children, amount = 12, className, style }: ParallaxProps) {
   const outer = useRef<HTMLDivElement>(null);
   const inner = useRef<HTMLDivElement>(null);
 
@@ -45,7 +47,7 @@ export function Parallax({ children, amount = 12, className }: ParallaxProps) {
   );
 
   return (
-    <div ref={outer} className={`overflow-hidden ${className ?? ""}`}>
+    <div ref={outer} className={`overflow-hidden ${className ?? ""}`} style={style}>
       <div ref={inner} className="size-full will-change-transform">
         {children}
       </div>

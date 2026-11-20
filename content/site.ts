@@ -40,8 +40,15 @@ export const profile = {
   },
   intro:
     "I design, build and ship web platforms end to end: Next.js, NestJS and TypeScript, from the backend API to the interface people actually use.",
-  /** Headshot in public/ (1023×1537 portrait). null shows a placeholder frame. */
-  photo: "/enoch-enebeli.png" as string | null,
+  /**
+   * Headshot in public/. width/height are the file's real pixel size; the About frame takes
+   * its shape from them, so a square photo gets a square frame and nothing is cropped away.
+   */
+  photo: { src: "/enoch-enebeli-portrait-square.jpg", width: 810, height: 810 } as {
+    src: string;
+    width: number;
+    height: number;
+  } | null,
   /**
    * Web edition of the CV, generated from "Enoch Enebeli CV.docx" (16 Nov 2026) with the phone
    * number left out, because this file is public. null hides the Download CV button.

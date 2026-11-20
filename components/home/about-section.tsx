@@ -12,15 +12,19 @@ export function AboutSection() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             {profile.photo ? (
-              <Parallax className="aspect-[4/5] border border-line bg-surface">
+              <Parallax
+                className="border border-line bg-surface"
+                // The frame copies the photo's own proportions, so the photo fits it exactly.
+                style={{ aspectRatio: `${profile.photo.width} / ${profile.photo.height}` }}
+              >
                 {/* width/height are the file's real size, so the space is reserved before it loads. */}
                 <Image
-                  src={profile.photo}
+                  src={profile.photo.src}
                   alt={`Portrait of ${profile.name}`}
-                  width={1023}
-                  height={1537}
+                  width={profile.photo.width}
+                  height={profile.photo.height}
                   sizes="(min-width: 1024px) 38vw, 100vw"
-                  className="size-full object-cover object-[50%_12%]"
+                  className="size-full object-cover object-top"
                 />
               </Parallax>
             ) : null}
