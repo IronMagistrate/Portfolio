@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { type CaseStudy } from "@/content/case-studies";
-import { contact, projects, statusLabel, type Project } from "@/content/site";
+import { projects, statusLabel, type Project } from "@/content/site";
 import { Reveal } from "../motion/Reveal";
 import { SplitHeading } from "../motion/SplitHeading";
 import { WordReveal } from "../motion/WordReveal";
@@ -107,6 +107,35 @@ export function CaseStudyView({ study, project }: { study: CaseStudy; project: P
         ))}
       </Part>
 
+      {study.surfaces ? (
+        <Part index={++part} id="platform" title="The platform">
+          <ul className="grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-3">
+            {study.surfaces.map((surface, i) => (
+              <Reveal as="li" key={surface.name} delay={i * 0.06} className="flex flex-col gap-3 bg-canvas p-6">
+                <span className="label text-accent-ink">App {pad(i + 1)}</span>
+                <h3 className="font-display text-2xl">{surface.name}</h3>
+                <p className="text-sm text-muted">{surface.body}</p>
+                {/* Only public apps carry a link. The staff dashboard never does. */}
+                {surface.link ? (
+                  <a
+                    href={surface.link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="label link-sweep mt-auto inline-flex items-center gap-2 self-start py-1"
+                  >
+                    {surface.link.label}
+                    <Arrow dir="out" className="size-3.5" />
+                    <span className="sr-only">(opens in a new tab)</span>
+                  </a>
+                ) : (
+                  <span className="label mt-auto text-muted">Private · not shown</span>
+                )}
+              </Reveal>
+            ))}
+          </ul>
+        </Part>
+      ) : null}
+
       <Part index={++part} id="role" title="My role">
         <Reveal as="p" className="text-lead">
           {study.role.summary}
@@ -166,6 +195,19 @@ export function CaseStudyView({ study, project }: { study: CaseStudy; project: P
           ))}
         </ol>
       </Part>
+
+      {study.challenges ? (
+        <Part index={++part} id="challenges" title="Problems I solved in production">
+          <ul className="grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2">
+            {study.challenges.map((challenge, i) => (
+              <Reveal as="li" key={challenge.title} delay={(i % 2) * 0.06} className="flex flex-col gap-3 bg-canvas p-6">
+                <h3 className="font-display text-2xl">{challenge.title}</h3>
+                <p className="text-sm text-muted">{challenge.body}</p>
+              </Reveal>
+            ))}
+          </ul>
+        </Part>
+      ) : null}
 
       <Part index={++part} id="outcome" title="Outcome">
         <Reveal as="p" className="text-lead">
@@ -232,8 +274,8 @@ export function CaseStudyView({ study, project }: { study: CaseStudy; project: P
       <aside className="border-t border-line bg-surface light:bg-surface-2">
         <div className="container-x flex flex-col justify-between gap-6 py-12 md:flex-row md:items-center">
           <p className="font-display text-h3">Have something to build?</p>
-          <ButtonLink href={`mailto:${contact.email}`} arrow="right">
-            {contact.email}
+          <ButtonLink href="/contact" arrow="right">
+            Get in touch
           </ButtonLink>
         </div>
       </aside>

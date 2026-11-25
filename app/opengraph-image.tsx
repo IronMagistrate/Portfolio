@@ -8,7 +8,7 @@ export const contentType = "image/png";
 
 export default function Image() {
   return new ImageResponse(
-    <OgCard eyebrow={`${profile.role} // ${profile.location}`} title="Production-grade platforms." footer="Next.js · NestJS · TypeScript" />,
+    <OgCard eyebrow={`${profile.role} // ${profile.location}`} title="Complex problems, practical software." footer="Next.js · NestJS · TypeScript" />,
     size,
   );
 }

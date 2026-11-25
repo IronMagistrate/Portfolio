@@ -33,13 +33,14 @@ export const profile = {
   shortRole: "Full Stack Developer",
   location: "Lagos, Nigeria",
   availability: "Open to remote full-stack roles",
+  // Headline chosen by Enoch (content brief, 25 Nov 2026).
   headline: {
-    before: "Full stack developer building",
-    highlight: "production-grade",
-    after: "platforms.",
+    before: "Turning complex problems into",
+    highlight: "practical software",
+    after: "solutions.",
   },
   intro:
-    "I design, build and ship web platforms end to end: Next.js, NestJS and TypeScript, from the backend API to the interface people actually use.",
+    "I'm a full stack developer in Lagos. I work through the whole job: understanding the problem, designing how the parts fit together, building the interface and the API behind it, and keeping it running once it's live.",
   /**
    * Headshot in public/. width/height are the file's real pixel size; the About frame takes
    * its shape from them, so a square photo gets a square frame and nothing is cropped away.
@@ -74,7 +75,7 @@ export const contact = {
   ],
 };
 
-export type ProjectStatus = "live" | "production" | "in-development" | "in-progress";
+export type ProjectStatus = "live" | "production" | "in-development" | "in-progress" | "private";
 
 export type Project = {
   slug: string;
@@ -103,63 +104,46 @@ export const statusLabel: Record<ProjectStatus, string> = {
   production: "In production",
   "in-development": "In development",
   "in-progress": "In progress",
+  private: "Private codebase",
 };
 
 /**
- * Order here is the order on the home page and of previous/next links. Each has a case study.
- * Order set by Enoch, 16 Nov 2026: SmartBioTrack, Novo business website, NShuttle, Admin dashboard.
+ * Order of the case studies and of their "next project" links.
  *
- * SmartBioTrack is described as the finished product it is becoming: no dates, phases,
- * progress, test counts, review findings, team details or places (Enoch, 16 Nov 2026).
- * The Admin dashboard is private to Novo: no screenshots, no address, no link, ever.
+ * Novo is ONE platform with three apps (business website, NShuttle, staff dashboard), told in
+ * one case study. The staff dashboard is private to the client: no screenshots, no address,
+ * no link, ever. SmartBioTrack is described as a product only: no dates, phases, progress,
+ * test counts, review findings, team details or places (Enoch, 16 Nov 2026).
  */
 export const projects: Project[] = [
   {
-    slug: "smartbiotrack",
-    name: "SmartBioTrack",
-    summary: "Multi-tenant attendance platform: every company sets its own rules, and the system works out lateness, overtime and absences.",
-    kind: "Attendance platform",
-    role: "Backend lead",
-    stack: ["NestJS", "Next.js", "PostgreSQL", "Prisma"],
-    status: "in-progress",
-  },
-  {
     slug: "novo",
-    name: "Novo Business Website",
-    summary: "The website at the centre of Novo's transport business, where every service is booked, on an API I built.",
-    kind: "Business website",
+    name: "Novo",
+    summary:
+      "A live transport and logistics platform: a business website, a shuttle-booking app and a private staff dashboard, all on one NestJS API. I joined with half the frontend built, finished it, and built the backend that ties it together.",
+    kind: "Transport platform · three apps, one API",
     // Enoch, 16 Nov 2026: sole developer, not "lead". Started Oct 2025 (CV).
     role: "Sole developer",
     year: "2025 – now",
-    stack: ["Next.js", "NestJS", "MongoDB", "Redis", "SendGrid"],
+    stack: ["Next.js", "NestJS", "MongoDB", "Redis", "Paystack", "SendGrid"],
     status: "live",
     cover: { src: "/screens/novo-cover.png", width: 1326, height: 796 },
   },
   {
-    slug: "nshuttle",
-    name: "NShuttle",
-    summary: "Novo's dedicated rider web app: search a route, book seats and pay online.",
-    kind: "Booking web app",
-    role: "Sole developer",
-    year: "2026",
-    stack: ["Next.js", "NestJS", "MongoDB", "Paystack"],
-    status: "live",
-    cover: { src: "/screens/nshuttle-home.png", width: 1585, height: 731 },
-  },
-  {
-    slug: "novo-admin",
-    name: "Novo Admin Dashboard",
-    summary: "Novo's private staff dashboard: manage what the website shows and handle every request and booking.",
-    kind: "Staff dashboard",
-    role: "Sole developer",
-    year: "2026",
-    stack: ["Next.js", "TypeScript", "Tailwind CSS", "NestJS"],
-    status: "production",
+    slug: "smartbiotrack",
+    name: "SmartBioTrack",
+    summary:
+      "A multi-tenant attendance platform where every company's data is kept apart, sessions are hard to steal, and two taps can never record two clock-ins.",
+    kind: "Attendance platform",
+    role: "Backend lead",
+    stack: ["NestJS", "Next.js", "PostgreSQL", "Prisma"],
+    status: "private",
   },
   {
     slug: "auth-system",
     name: "Auth System",
-    summary: "Standalone authentication API: sessions, token rotation, two-factor sign-in and email verification.",
+    summary:
+      "A personal project: an authentication API built to understand what really happens behind sign-in, with token rotation, two-factor codes and sessions you can revoke.",
     kind: "Personal project",
     role: "Personal project",
     year: "2026",
@@ -174,18 +158,18 @@ export function getProject(slug: string): Project | undefined {
 }
 
 /**
- * Impact numbers for the animated counters. REAL figures only, each with its source.
- * No SmartBioTrack figures: its progress and internals stay private (16 Nov 2026).
- * - 6 services: car rentals, shuttles, fleet management, logistics, driving school, outsourcing (CV)
- * - 3 apps on 1 API: business website, NShuttle, admin dashboard (Enoch, 16 Nov 2026)
- * - 47 endpoints, 11 screens: Admin Novo technical documentation, 9 Nov 2026
+ * How the home page groups the work: Novo as the one flagship (its three apps named inside
+ * the card, all covered by the one case study), then the other two featured projects.
  */
-export const metrics: { value: number; suffix?: string; label: string; source: string }[] = [
-  { value: 6, label: "Service lines on one transport platform", source: "Novo" },
-  { value: 3, label: "Apps built on a single API, alone", source: "Novo" },
-  { value: 47, label: "API endpoints behind one staff dashboard", source: "Novo Admin" },
-  { value: 11, label: "Dashboard screens designed and built", source: "Novo Admin" },
-];
+export const homeWork = {
+  flagship: "novo",
+  surfaces: [
+    { label: "Business website", text: "Where every Novo service is presented and booked." },
+    { label: "NShuttle", text: "The rider app: search a route, hold seats, pay with Paystack." },
+    { label: "Staff dashboard", text: "Private. Where staff handle every request and booking." },
+  ],
+  featured: ["smartbiotrack", "auth-system"],
+} as const;
 
 /**
  * The pinned "how Novo Cars is built" walkthrough on the home page.
@@ -199,7 +183,7 @@ export const novoArchitecture: PinnedStep[] = [
     items: [
       "Business website, where services are booked",
       "NShuttle rider app on its own subdomain",
-      "Private staff dashboard with 11 screens",
+      "Private staff dashboard for Novo's team",
       "TypeScript and Tailwind CSS throughout",
     ],
   },
@@ -238,58 +222,142 @@ export const novoArchitecture: PinnedStep[] = [
   },
 ];
 
-export const about: { label: string; body: string }[] = [
+/**
+ * About, first person. Built from Enoch's own draft (content brief, 25 Nov 2026), lightly
+ * edited for flow. The three lessons and the four-step approach are his.
+ */
+export const aboutStory: string[] = [
+  "I'm Enoch Enebeli, a software developer who enjoys exploring ideas, understanding problems and building solutions that work.",
+  "My work has taken me across most layers of a product: interfaces and user experience, backend systems and APIs, and the architecture that ties them together. I enjoy understanding how the parts of a product fit, and finding practical ways to make them work as one.",
+  "I believe good engineering isn't just writing code that works. It's understanding why something needs to exist, making technical decisions on purpose, and building something that stays reliable long after the first release.",
+  "Being the only developer on a live transport platform taught me three things. Ownership: the job doesn't end at deployment; it includes everything that happens after. Architecture: every technical choice has consequences, and the product has to be able to grow on top of it. And uncertainty: requirements change, information is incomplete, and live systems break in ways nobody predicted, but a sound decision still has to be made.",
+  "Today I keep exploring different areas of software engineering, taking on meaningful challenges, and building products that solve real problems.",
+];
+
+/** How Enoch usually starts a project. A habit, not a method. */
+export const approach: { title: string; body: string }[] = [
+  { title: "Understand the problem", body: "Who it is for, what goes wrong today, and what \"working\" has to mean." },
+  { title: "Design how it fits", body: "The architecture, and how the parts should talk to each other." },
+  { title: "Build it", body: "Interface, API and data, with the rules kept on the server." },
+  { title: "Refine it", body: "As the product and its requirements become clearer." },
+];
+
+/**
+ * The kinds of problems Enoch solves, each backed by work described on this site.
+ * `where` names the project the evidence comes from.
+ */
+export const capabilities: { title: string; evidence: string; where: string }[] = [
   {
-    label: "Now",
-    body: "Lead Full Stack Software Developer at Elonatech Nigeria Limited, shipping production platforms from the database up to the interface.",
+    title: "Full-stack product development",
+    evidence:
+      "Took over a half-built frontend, finished it, and built the API that the business website, a shuttle-booking app and a staff dashboard all share.",
+    where: "Novo",
   },
   {
-    label: "Leading",
-    body: "I lead a small engineering team and set its review, testing and security standards, and I mentor junior developers on the same workflow.",
+    title: "Backend and API architecture",
+    evidence:
+      "One NestJS API decides every price, seat count and booking status for three apps, so changing a rule once changes it everywhere, and a tampered browser can't change what a trip costs.",
+    where: "Novo",
   },
   {
-    label: "Education",
-    body: "B.Eng. in Computer Engineering, Covenant University, 2018–2023. Second Class Upper (2:1).",
+    title: "Payments and transaction workflows",
+    evidence:
+      "Paystack payments confirmed on the server and by webhook, seats held for 15 minutes while a rider pays, and booking statuses that move only on payment events.",
+    where: "Novo · NShuttle",
+  },
+  {
+    title: "Authentication and application security",
+    evidence:
+      "Refresh sessions in httpOnly cookies with token-reuse detection, company data kept strictly apart, and a personal project on token rotation and two-factor sign-in.",
+    where: "SmartBioTrack · Auth System",
+  },
+  {
+    title: "Data integrity and production debugging",
+    evidence:
+      "A row lock that stops double clock-ins, seat availability that is never served from cache, and live bugs traced to their cause: a seat counted twice, dates parsed without a time zone, and a sign-in race in a dashboard.",
+    where: "SmartBioTrack · Novo",
   },
 ];
 
-/** Work history, newest first. Taken from Enoch's CV (16 Nov 2026), shortened, nothing added. */
+/**
+ * Work history, newest first. Matches the CV (cv/cv-content.cjs) role for role and date for date.
+ * Clover Tech: role and general frontend work only. Enoch does not want the product described
+ * publicly (25 Nov 2026).
+ */
 export const experience: { role: string; company: string; period: string; summary: string }[] = [
   {
-    // Title and scope match the CV revised 17 Nov 2026.
     role: "Lead Full Stack Software Developer",
     company: "Elonatech Nigeria Limited",
-    period: "Oct 2025 – now",
+    period: "Oct 2025 – Present",
     summary:
-      "Sole developer of Novo's transport platform (business website, rider app and staff dashboard on one API), and backend lead on a multi-tenant attendance platform.",
+      "Sole developer of Novo's transport platform: finished its half-built frontend and built the API behind its three apps. Backend lead on a multi-tenant attendance platform, reporting progress to non-technical management. I also lead a small team and mentor junior developers.",
   },
   {
-    role: "Front-End Developer (remote)",
+    role: "Front-End Developer (Remote)",
     company: "Clover Tech",
-    period: "Aug – Nov 2024",
-    summary: "Built a two-sided medical appointment booking platform for patients and doctors with React and Tailwind CSS.",
+    period: "Aug 2024 – Nov 2024",
+    summary: "Built React and Tailwind CSS interfaces, forms and sign-in flows in a remote team with designers and backend developers.",
   },
   {
     role: "Web Development Instructor",
     company: "New Horizons System Solutions",
-    period: "Jan – Nov 2024",
-    summary: "Taught HTML, CSS and JavaScript to 20+ students through project-based lessons and debugging sessions.",
+    period: "Jan 2024 – Nov 2024",
+    summary:
+      "Taught HTML, CSS and JavaScript to more than 20 students through projects they built themselves, debugging their code live so they could see how a problem is found, not just fixed.",
+  },
+  {
+    role: "Frontend Developer Intern",
+    company: "Excite Panacea Limited",
+    period: "Aug 2022 – Sep 2022",
+    summary: "Refined responsive interfaces with Bootstrap and JavaScript.",
   },
   {
     role: "Software Developer & QA Intern",
     company: "PayedIn International Limited",
-    period: "Mar – Aug 2022",
-    summary: "Built Vue.js interface features under senior review, then wrote and ran manual test scripts and regression tests.",
+    period: "Mar 2022 – Aug 2022",
+    summary:
+      "Started by building Vue.js interface features through reviewed pull requests, then moved into QA: writing and running manual and regression tests, and verifying fixes with the developers.",
   },
 ];
 
-// From the CV's Technical Skills (16 Nov 2026). PostgreSQL, Prisma and Redis are not on the CV
-// but are confirmed by the SmartBioTrack and Auth System code.
-export const skills: { group: string; items: string[] }[] = [
-  { group: "Frontend", items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "React Native", "Vue.js"] },
-  { group: "Backend", items: ["NestJS", "Node.js", "Express", "REST APIs", "JWT auth"] },
-  { group: "Data", items: ["MongoDB", "Mongoose", "PostgreSQL", "Prisma", "Redis"] },
-  { group: "Payments & email", items: ["Paystack", "Stripe", "Flutterwave", "SendGrid"] },
+export const education = {
+  degree: "B.Eng., Computer Engineering",
+  school: "Covenant University",
+  period: "2018 – 2023",
+  detail: "Second Class Upper (2:1), CGPA 3.66/5.0",
+};
+
+/**
+ * Skills by how well Enoch knows them, not as a wall of logos (brief, 25 Nov 2026).
+ * Core: what he works with every day. Used: real projects. Familiar: limited experience,
+ * deliberately not presented as strengths. No ratings, percentages or years.
+ */
+export const skills: { tier: string; note: string; groups: { area: string; items: string[] }[] }[] = [
+  {
+    tier: "Core",
+    note: "What I work with every day",
+    groups: [
+      { area: "Frontend", items: ["Next.js", "React", "TypeScript", "Tailwind CSS"] },
+      { area: "Backend", items: ["NestJS", "Node.js", "Express", "REST APIs"] },
+      { area: "Databases", items: ["MongoDB", "PostgreSQL"] },
+    ],
+  },
+  {
+    tier: "Used in projects",
+    note: "In production work or on this site",
+    groups: [
+      { area: "Frontend", items: ["JavaScript", "HTML5", "CSS3", "Vue.js"] },
+      { area: "Data", items: ["Prisma", "Mongoose", "Redis"] },
+      { area: "Payments & email", items: ["Paystack", "Stripe", "Flutterwave", "Resend"] },
+      { area: "Motion", items: ["Motion", "GSAP", "Lenis"] },
+      { area: "Tools", items: ["Git", "GitHub", "Vercel", "pnpm", "Postman"] },
+    ],
+  },
+  {
+    tier: "Familiar with",
+    note: "Some hands-on experience",
+    groups: [{ area: "", items: ["SendGrid", "React Native", "Zod", "Jest", "class-validator"] }],
+  },
 ];
 
 export const nav = [

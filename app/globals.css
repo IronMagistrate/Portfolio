@@ -64,6 +64,10 @@
   --text-display: clamp(3.25rem, 10.5vw, 9.5rem);
   --text-display--line-height: 0.92;
   --text-display--letter-spacing: -0.025em;
+  /* Home hero: a sentence, not a slogan, so it runs smaller than display. */
+  --text-hero: clamp(2.25rem, 5vw, 5.25rem);
+  --text-hero--line-height: 1;
+  --text-hero--letter-spacing: -0.022em;
   --text-h2: clamp(2.5rem, 6.4vw, 5.5rem);
   --text-h2--line-height: 0.98;
   --text-h2--letter-spacing: -0.02em;

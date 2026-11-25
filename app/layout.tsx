@@ -24,7 +24,7 @@ const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 const title = `${profile.name} | ${profile.role}`;
 const description =
-  "Portfolio of Enoch Enebeli, a lead full stack software developer in Lagos building production web platforms with Next.js, NestJS, TypeScript, PostgreSQL and MongoDB. Open to remote roles.";
+  "Enoch Enebeli is a lead full stack software developer in Lagos who turns complex problems into practical software: interfaces, APIs, payments and the systems behind them, with Next.js, NestJS and TypeScript. Open to remote roles.";
 
 export const metadata: Metadata = {
   // Makes relative URLs (Open Graph images, canonical links) absolute.

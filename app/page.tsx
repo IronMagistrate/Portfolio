@@ -1,8 +1,8 @@
 import { ViewTransition } from "react";
-import { AboutSection } from "@/components/home/about-section";
+import { AboutSection, CapabilitiesSection } from "@/components/home/about-section";
 import { ContactSection } from "@/components/home/contact-section";
 import { Hero } from "@/components/home/hero";
-import { WorkSection } from "@/components/home/work-section";
+import { MoreWorkSection, WorkSection } from "@/components/home/work-section";
 import { PinnedSteps } from "@/components/motion/PinnedSteps";
 import { novoArchitecture } from "@/content/site";
 
@@ -21,6 +21,8 @@ export default function Home() {
           intro="Novo runs on three apps and one API. Scroll through its four layers."
           steps={novoArchitecture}
         />
+        <MoreWorkSection />
+        <CapabilitiesSection />
         <AboutSection />
         <ContactSection />
       </div>
