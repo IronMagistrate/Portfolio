@@ -177,13 +177,15 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         title: "A deleted schedule that broke bookings",
-        body: "Deleting a schedule once left bookings pointing at nothing and crashed a rider's bookings page. Schedules with live bookings can no longer be deleted.",
+        // Confirmed in Enoch's Novo project notes: found with test bookings, fixed in the API and in NShuttle.
+        body: "Deleting a schedule that still had bookings left them pointing at nothing, and the bookings page crashed on them. I added a server-side guard so a schedule with active bookings can't be deleted, and made the page cope with orphaned records.",
       },
     ],
     outcome: {
-      summary: "Live, with every Novo service bookable online and shuttle seats sold and paid for on NShuttle.",
+      summary:
+        "Live, with online booking requests across Novo's service lines, and end-to-end shuttle bookings and payments through NShuttle.",
       points: [
-        "The business website at novo.ng takes booking requests for every service",
+        "The business website at novo.ng takes booking requests across Novo's service lines",
         "NShuttle takes real bookings and payments, end to end",
         "Every request is stored as well as emailed, so staff can always find it in the dashboard",
         "One API runs all three apps, and I still maintain the platform",
@@ -230,14 +232,14 @@ export const caseStudies: CaseStudy[] = [
         },
         {
           title: "Security",
-          body: "Sessions, token handling and the checks that keep one company's data out of another's reach.",
+          body: "Sign-in, sessions and the checks that keep one company's data out of another's reach.",
         },
       ],
     },
     flow: {
       label: "An attendance day",
       steps: [
-        { title: "Clock in", body: "On server time, never the device's, with the location recorded." },
+        { title: "Clock in", body: "Recorded on the server's clock, so a device's time can't change it." },
         { title: "Breaks", body: "Several work sessions a day, with breaks handled by one consistent rule." },
         { title: "Clock out", body: "A forgotten clock-out is flagged for review. The system never invents a punch." },
         { title: "Day closes", body: "Each day closes in the company's own time zone, marking absences and incomplete days." },
@@ -245,7 +247,7 @@ export const caseStudies: CaseStudy[] = [
     },
     architecture: {
       summary:
-        "Attendance data ends up in payroll, so the design favours records that can't drift and data that can't leak: isolation on every request, sessions that are hard to steal, and a lock wherever two requests could race.",
+        "Attendance data ends up in payroll, so the design favours records that can't drift and data that can't leak: strict isolation between companies, sessions that resist theft, and records that stay correct even when requests arrive at the same moment.",
       decisions: [
         {
           title: "Each company's data stays its own",
@@ -255,12 +257,12 @@ export const caseStudies: CaseStudy[] = [
         {
           title: "Sessions that are hard to steal",
           tag: "Security",
-          body: "The refresh token lives in an httpOnly cookie, out of reach of page scripts, and the access token only in memory. Refresh tokens are single-use, so an old one being presented again is detected as likely theft rather than accepted.",
+          body: "Sign-in sessions are designed so that a stolen or replayed session is detected and refused, rather than quietly accepted.",
         },
         {
-          title: "One lock stops the double clock-in",
+          title: "No double clock-ins",
           tag: "Concurrency",
-          body: "A double tap or two open tabs could both read \"not clocked in\" and both write. Each punch locks the user's database row inside its transaction and reads the clock after the lock, so the second request waits and punches stay in order.",
+          body: "A double tap or two open tabs can't record two clock-ins. Requests that arrive together are handled safely, so every punch is recorded once and in the right order.",
         },
         {
           title: "Punches are facts, summaries are derived",
@@ -268,9 +270,9 @@ export const caseStudies: CaseStudy[] = [
           body: "Clock events are never edited. Daily summaries are computed from them, so any day can be rebuilt and checked.",
         },
         {
-          title: "Every guard is proven by breaking it",
+          title: "Protections are tested",
           tag: "Testing",
-          body: "The key security and concurrency protections have automated tests, and each test is checked by removing the protection and watching it fail, so a guard that silently stops working is caught.",
+          body: "The key security and concurrency protections are covered by automated tests, so a protection that stops working is caught before it ships.",
         },
       ],
     },

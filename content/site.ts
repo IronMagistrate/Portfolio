@@ -268,13 +268,13 @@ export const capabilities: { title: string; evidence: string; where: string }[] 
   {
     title: "Authentication and application security",
     evidence:
-      "Refresh sessions in httpOnly cookies with token-reuse detection, company data kept strictly apart, and a personal project on token rotation and two-factor sign-in.",
+      "Sessions designed to resist theft, company data kept strictly apart on a multi-tenant platform, and a personal project on token rotation and two-factor sign-in.",
     where: "SmartBioTrack · Auth System",
   },
   {
     title: "Data integrity and production debugging",
     evidence:
-      "A row lock that stops double clock-ins, seat availability that is never served from cache, and live bugs traced to their cause: a seat counted twice, dates parsed without a time zone, and a sign-in race in a dashboard.",
+      "Clock-ins that can't be recorded twice, seat availability that is never served from cache, and live bugs traced to their cause: a seat counted twice, dates parsed without a time zone, and a sign-in race in a dashboard.",
     where: "SmartBioTrack · Novo",
   },
 ];
@@ -335,7 +335,7 @@ export const education = {
 export const skills: { tier: string; note: string; groups: { area: string; items: string[] }[] }[] = [
   {
     tier: "Core",
-    note: "What I work with every day",
+    note: "Technologies I work with most confidently",
     groups: [
       { area: "Frontend", items: ["Next.js", "React", "TypeScript", "Tailwind CSS"] },
       { area: "Backend", items: ["NestJS", "Node.js", "Express", "REST APIs"] },
@@ -356,7 +356,11 @@ export const skills: { tier: string; note: string; groups: { area: string; items
   {
     tier: "Familiar with",
     note: "Some hands-on experience",
-    groups: [{ area: "", items: ["SendGrid", "React Native", "Zod", "Jest", "class-validator"] }],
+    groups: [
+      // Used in production at Novo, but Enoch rates his familiarity as limited (27 Nov 2026).
+      { area: "Production exposure", items: ["SendGrid (transactional email at Novo)"] },
+      { area: "Limited", items: ["React Native", "Zod", "Jest", "class-validator"] },
+    ],
   },
 ];
 
