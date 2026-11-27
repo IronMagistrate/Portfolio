@@ -324,7 +324,7 @@ export const education = {
   degree: "B.Eng., Computer Engineering",
   school: "Covenant University",
   period: "2018 – 2023",
-  detail: "Second Class Upper (2:1), CGPA 3.66/5.0",
+  detail: "Second Class Upper (2:1)",
 };
 
 /**
